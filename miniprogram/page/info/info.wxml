@@ -1,0 +1,16 @@
+<view class="container">
+  <view class="header">
+    <view class="sub-title">快递单号: {{trackNumber}}</view>
+  </view>
+
+  <form>
+  <block wx:for="{{dataObj}}" wx:key="*this">
+   <tui-list-cell hover="{{false}}">
+    <view class="tui-line-cell">
+      <view class="tui-title tui-col-2">{{index}}</view>
+      <view class="tui-input tui-col-7">{{item}} </view>
+    </view>
+     </tui-list-cell>
+  </block>
+ </form>
+</view>

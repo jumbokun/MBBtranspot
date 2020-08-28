@@ -1,0 +1,60 @@
+<view class="container">
+  <view class="tui-box">
+    <tui-list-cell arrow="{{true}}" last="{{true}}" radius="{{true}}">
+      <view class="tui-address">
+        <view wx:if="{{true}}">
+          <view class="tui-userinfo">
+            <text class="tui-name">{{name}}</text> {{phone}}
+          </view>
+          <view class="tui-addr">
+            <text>{{address}}</text>
+          </view>
+        </view>
+        <view class="tui-none-addr" wx:else>
+          <image src="/static/images/index/map.png" class="tui-addr-img" mode="widthFix"></image>
+          <text>选择收货地址</text>
+        </view>
+      </view>
+      <view class="tui-bg-img"></view>
+    </tui-list-cell>
+
+    <view class="tui-top tui-goods-info">
+      <tui-list-cell hover="{{false}}" lineLeft="{{false}}">
+        <view class="tui-goods-title">
+          快递详情
+        </view>
+      </tui-list-cell>
+
+
+      <tui-list-cell hover="{{false}}">
+        <view class="tui-padding tui-flex">
+              <view class="tui-col-8">内容物 </view><view class="tui-gray  tui-col-4">{{type}}</view>
+        </view>
+      </tui-list-cell>
+
+      <tui-list-cell hover="{{false}}">
+        <view class="tui-padding tui-flex">
+              <view class="tui-col-8">重量 </view><view class="tui-gray  tui-col-4">{{weight}}千克</view>
+        </view>
+      </tui-list-cell>
+
+      <tui-list-cell hover="{{false}}">
+        <view class="tui-padding tui-flex">
+              <view class="tui-col-8">备注 </view><view class="tui-gray  tui-col-4">{{note}}</view>
+        </view>
+      </tui-list-cell>
+      <tui-list-cell hover="{{false}}">
+        <view class="tui-padding tui-flex">
+          <view>快递内容物价值</view>
+          <view>￥{{contentPrice}}</view>
+        </view>
+      </tui-list-cell>
+
+      <tui-list-cell hover="{{false}}">
+        <view class="tui-padding tui-flex-1">
+          <view>您的订单已登记，X个工作日内我们将发送一封邮件到您的邮箱，请注意查收！</view>
+        </view>
+      </tui-list-cell>
+  </view>
+</view>
+</view>

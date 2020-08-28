@@ -1,0 +1,8 @@
+{
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTextStyle": "black",
+  "navigationBarTitleText": "历史订单记录",
+  "usingComponents": {
+    "sticky": "../../../components/sticky/sticky"
+  }
+}

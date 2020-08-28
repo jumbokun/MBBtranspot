@@ -1,0 +1,2 @@
+  <tui-button bind:click="custom_service" type="primary" tui-button-class="tui-mbtm">联系客服</tui-button>
+    <tui-button bind:click="custom_service" type="primary" tui-button-class="tui-mbtm">随便改</tui-button>

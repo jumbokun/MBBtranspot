@@ -1,0 +1,68 @@
+<!--
+此文件为开发者工具生成，生成时间: 2020/8/27 下午9:54:00 
+使用方法：
+在 page\trackOrder\trackOrder.wxml 引入模板
+
+```
+<import src="trackOrder.skeleton.wxml"/>
+<template is="skeleton" wx-if="{{loading}}" />
+```
+
+在 page\trackOrder\trackOrder.wxss 中引入样式
+```
+@import "./trackOrder.skeleton.wxss";
+```
+
+更多详细信息可以参考文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/skeleton.html
+-->
+<template name="skeleton">
+  <view class="sk-container">
+    <view class="container">
+      <form>
+        <view is="components/list-cell/list-cell">
+          <view class="cell--tui-list-cell cell--tui-line-left sk-pseudo sk-pseudo-circle" hover-class="true" hover-stay-time="150" style="background: #fff;font-size: 17px; color:#333;padding:14px 16px">
+            <view class="tui-line-cell">
+              <view class="tui-title sk-transparent sk-text-0-0000-105 sk-text">
+                请输入订单号
+              </view>
+            </view>
+          </view>
+        </view>
+        <view is="components/list-cell/list-cell">
+          <view class="cell--tui-list-cell cell--tui-line-left sk-pseudo sk-pseudo-circle" hover-class="tui-cell-hover" hover-stay-time="150" style="background: #fff;font-size: 17px; color:#333;padding:14px 16px">
+            <view class="tui-input sk-image" maxlength="50" name="YQNum" placeholder="请输入快递订单号" placeholder-class="phcolor" type="string">
+            </view>
+          </view>
+        </view>
+        <view is="components/list-cell/list-cell">
+          <view class="cell--tui-list-cell cell--tui-line-left sk-pseudo sk-pseudo-circle" hover-class="true" hover-stay-time="150" style="background: #fff;font-size: 17px; color:#333;padding:14px 16px">
+            <view class="tui-line-cell">
+              <view class="tui-title sk-transparent sk-text-0-0000-656 sk-text">
+                选择运输公司（请注意邮件）
+              </view>
+            </view>
+          </view>
+        </view>
+        <view is="components/list-cell/list-cell">
+          <view class="cell--tui-list-cell cell--tui-line-left sk-pseudo sk-pseudo-circle" hover-class="true" hover-stay-time="150" style="background: #fff;font-size: 17px; color:#333;padding:14px 16px">
+            <view class="tui-line-cell">
+              <view range="[&quot;DHL-EXPRESS（德国-中国）&quot;,&quot;DHL-DE(德国境内）&quot;]" value="0" class="sk-image">
+                <view class="tui-input sk-transparent sk-text-14-2857-81 sk-text">
+                  当前选择:DHL-EXPRESS（德国-中国）
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="tui-btn-box">
+          <button class="btn-primary sk-transparent sk-button sk-pseudo sk-pseudo-circle" form-type="submit" hover-class="btn-hover" type="primary">
+            查询
+          </button>
+        </view>
+      </form>
+    </view>
+    <div id="YQContainer" class="sk-transparent sk-text-14-2857-887 sk-text">
+      null
+    </div>
+  </view>
+</template>

@@ -1,0 +1,32 @@
+<!--单号输入框。-->
+<view class="container">
+	<form bindsubmit="formSubmit">
+		<tui-list-cell hover="{{false}}">
+			<view class="tui-line-cell">
+				<view class="tui-title">请输入订单号</view>
+			</view>
+		</tui-list-cell>
+		<tui-list-cell>
+			<input placeholder-class="phcolor" class="tui-input" name="OrderNum" placeholder="请输入快递订单号" maxlength="50" type="string" />
+		</tui-list-cell>
+		<!--picker 选择货运公司-->
+		<tui-list-cell hover="{{false}}">
+			<view class="tui-line-cell">
+				<view class="tui-title">选择运输公司（请注意邮件）</view>
+			</view>
+		</tui-list-cell>
+		<tui-list-cell hover="{{false}}">
+			<view class="tui-line-cell">
+				<picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+					<view class="tui-input">当前选择:{{array[index]}}</view>
+				</picker>
+			</view>
+		</tui-list-cell>
+		<view class="tui-btn-box">
+			<button class="btn-primary" hover-class="btn-hover" type="primary" formType="submit">查询</button>
+		</view>
+	</form>
+	<!--end of form-->
+</view>
+<!--用于显示查询结果的容器。-->
+<div id="YQContainer">{{resu}}</div>
