@@ -100,6 +100,7 @@ Page({
 
       wx.showToast({
         title: '信息已成功登记，请注意邮箱后续来信',
+        duration: 1500
       })
 
       wx.cloud.callFunction({

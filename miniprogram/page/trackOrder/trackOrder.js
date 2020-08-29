@@ -6,36 +6,23 @@ Page({
         OrderNum: '',
         resu: '',
         array: ['DHL-EXPRESS（德国-中国）','DHL-DE(德国境内）'],
-        transCompany: '',
         index: 0
     },
     formSubmit: function(e) {
+        var app = getApp(); //获取小程序实例 = 获取全局变量
         var that=this;
-        // wx.navigateTo({
-        //   url: '/page/timeaxis/timeaxis',
-        // })
-        wx.cloud.callFunction({
-            name: "track",
-            data:{
-                OrderNum : e.detail.value.OrderNum,
-            },  
-            success: function(res) {
-                console.log(res.result) 
-                that.setData({resu: JSON.stringify(res.result)});
-            },
-            fail: console.error
-        })
-        wx.showToast({
-          title: '正在查询',
-          icon: 'loading',
-          duration: 2500
+        app.globalData.firstQuery = true;
+        app.globalData.orderNum = e.detail.value.orderNum;
+        wx.navigateTo({
+          url: '/page/timeaxis/timeaxis',
         })
     },
     bindPickerChange: function(e) {
-        console.log('picker发送选择改变，携带值为', e.detail.value)
         var that=this;
+        var app = getApp(); //获取小程序实例 = 获取全局变量
         that.setData({
           index: e.detail.value
         });
+        app.globalData.index = e.detail.value;
     },
 })

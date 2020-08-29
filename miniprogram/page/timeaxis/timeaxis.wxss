@@ -1,3 +1,4 @@
+@import "timeaxis.skeleton.wxss";
 .tui-order-header{
   padding: 30rpx;
   box-sizing: border-box;

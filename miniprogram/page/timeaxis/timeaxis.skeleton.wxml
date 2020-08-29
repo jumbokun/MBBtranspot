@@ -1,0 +1,156 @@
+<!--
+此文件为开发者工具生成，生成时间: 2020/8/29 上午4:56:28 
+使用方法：
+在 page\timeaxis\timeaxis.wxml 引入模板
+
+```
+<import src="timeaxis.skeleton.wxml"/>
+<template is="skeleton" wx-if="{{loading}}" />
+```
+
+在 page\timeaxis\timeaxis.wxss 中引入样式
+```
+@import "./timeaxis.skeleton.wxss";
+```
+
+更多详细信息可以参考文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/skeleton.html
+-->
+<template name="skeleton">
+  <view class="sk-container">
+    <view class="container">
+      <view class="tui-order-header">
+        <view class="tui-text sk-transparent">
+          订单编号：
+          <text class="tui-bold sk-transparent sk-text-14-2857-685 sk-text">
+            00340434326733124494
+          </text>
+        </view>
+        <view class="tui-text sk-transparent sk-text-14-2857-937 sk-text">
+          运输商：DHL-DE(德国境内）
+        </view>
+        <view class="tui-text sk-transparent">
+          订单创建于：
+          <text class="tui-bold sk-transparent sk-text-14-2857-636 sk-text">
+             
+          </text>
+        </view>
+      </view>
+      <view class="tui-order-tracking">
+        <view is="components/time-axis/time-axis">
+          <view class="axis--tui-time-axis sk-pseudo sk-pseudo-circle">
+            <view is="components/timeaxis-item/timeaxis-item">
+              <view class=" item--tui-timeaxis-item">
+                <view>
+                  <view class="tui-order-title sk-transparent sk-text-14-2857-79 sk-text">
+                    delivered
+                  </view>
+                  <view class="tui-order-desc sk-transparent sk-text-14-2857-728 sk-text">
+                    The shipment has been successfully delivered
+                  </view>
+                  <view class="tui-order-time tui-gray sk-transparent sk-text-14-2857-194 sk-text">
+                     
+                  </view>
+                </view>
+                <view class="item--tui-node" style="background:none">
+                  <view class="tui-node tui-bg-primary">
+                    <view is="components/icon/icon">
+                      <view class="icon--tui-icon icon--tui-icon-check sk-pseudo sk-pseudo-circle" style="font-size: 14px; color:#fff;">
+                      </view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="tui-order-tracking">
+        <view is="components/time-axis/time-axis">
+          <view class="axis--tui-time-axis sk-pseudo sk-pseudo-circle">
+            <view is="components/timeaxis-item/timeaxis-item">
+              <view class=" item--tui-timeaxis-item">
+                <view>
+                  <view class="tui-order-title sk-transparent sk-text-14-2857-989 sk-text">
+                    transit
+                  </view>
+                  <view class="tui-order-desc sk-transparent sk-text-14-2857-480 sk-text">
+                    The shipment has been loaded onto the delivery vehicle
+                  </view>
+                  <view class="tui-order-time tui-gray sk-transparent sk-text-14-2857-256 sk-text">
+                     
+                  </view>
+                </view>
+                <view class="item--tui-node" style="background:none">
+                  <view class="tui-node tui-bg-primary">
+                    <view is="components/icon/icon">
+                      <view class="icon--tui-icon icon--tui-icon-transport sk-pseudo sk-pseudo-circle" style="font-size: 14px; color:#fff;">
+                      </view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="tui-order-tracking">
+        <view is="components/time-axis/time-axis">
+          <view class="axis--tui-time-axis sk-pseudo sk-pseudo-circle">
+            <view is="components/timeaxis-item/timeaxis-item">
+              <view class=" item--tui-timeaxis-item">
+                <view>
+                  <view class="tui-order-title sk-transparent sk-text-14-2857-481 sk-text">
+                    transit
+                  </view>
+                  <view class="tui-order-desc sk-transparent sk-text-14-2857-599 sk-text">
+                    The shipment has been processed in the destination parcel center
+                  </view>
+                  <view class="tui-order-time tui-gray sk-transparent sk-text-14-2857-579 sk-text">
+                     
+                  </view>
+                </view>
+                <view class="item--tui-node" style="background:none">
+                  <view class="tui-node tui-bg-primary">
+                    <view is="components/icon/icon">
+                      <view class="icon--tui-icon icon--tui-icon-transport sk-pseudo sk-pseudo-circle" style="font-size: 14px; color:#fff;">
+                      </view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="tui-order-tracking">
+        <view is="components/time-axis/time-axis">
+          <view class="axis--tui-time-axis sk-pseudo sk-pseudo-circle">
+            <view is="components/timeaxis-item/timeaxis-item">
+              <view class=" item--tui-timeaxis-item">
+                <view>
+                  <view class="tui-order-title sk-transparent sk-text-14-2857-364 sk-text">
+                    transit
+                  </view>
+                  <view class="tui-order-desc sk-transparent sk-text-14-2857-306 sk-text">
+                    The shipment has been processed in the parcel center of origin
+                  </view>
+                  <view class="tui-order-time tui-gray sk-transparent sk-text-14-2857-451 sk-text">
+                     
+                  </view>
+                </view>
+                <view class="item--tui-node" style="background:none">
+                  <view class="tui-node tui-bg-primary">
+                    <view is="components/icon/icon">
+                      <view class="icon--tui-icon icon--tui-icon-transport sk-pseudo sk-pseudo-circle" style="font-size: 14px; color:#fff;">
+                      </view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>

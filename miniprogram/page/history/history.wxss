@@ -16,7 +16,15 @@
   right: 0;
   left: 0;
 }
-
+.status{
+  font-size: 38rpx;
+  font-weight: 500;
+  color: #000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 20rpx;
+}
 /* .sticky-container{
  position: relative;
 } */
@@ -117,7 +125,7 @@
   justify-content: space-between;
 }
 .tit{
-  font-size: 32rpx;
+  font-size: 20rpx;
   max-width: 420rpx;
   white-space: nowrap;
   overflow: hidden;
