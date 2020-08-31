@@ -1,93 +1,100 @@
 <view class="container">
-  <form bindsubmit="formSubmit" bindreset="formReset">
-    
-    <tui-list-cell hover="{{false}}">
-      <view class="tui-line-cell">
-        <view class="red-star">*</view>
-        <view class="tui-title">收件人姓名</view>
-        <input placeholder-class="phcolor" class="tui-input" name="姓名" placeholder="请输入姓名" maxlength="50" type="text" />
-      </view>
-    </tui-list-cell>
+	<form bindsubmit="formSubmit" bindreset="formReset">
 
-    <tui-list-cell hover="{{false}}">
-      <view class="tui-line-cell">
-        <view class="red-star">*</view>
-        <view class="tui-title">收件人手机号</view>
-        <input placeholder-class="phcolor" class="tui-input" name="手机" placeholder="请输入手机号" maxlength="50" type="text" />
-      </view>
-    </tui-list-cell>
+		<tui-list-cell hover="{{false}}">
+			<view class="tui-line-cell">
+				<view class="red-star">*</view>
+				<view class="tui-title">收件人姓名</view>
+				<input placeholder-class="phcolor" class="tui-input" name="姓名" placeholder="请输入姓名" maxlength="50" type="text" />
+			</view>
+		</tui-list-cell>
 
-    <tui-list-cell hover="{{false}}" last="{{true}}">
-      <view class="tui-line-cell">
-        <view class="red-star">*</view>
-        <view class="tui-title">收件人地址</view>
-        <input placeholder-class="phcolor" class="tui-input" name="收件人地址" placeholder="请输入收件人地址" maxlength="50" type="text" />
-      </view>
-    </tui-list-cell>
+		<tui-list-cell hover="{{false}}">
+			<view class="tui-line-cell">
+				<view class="red-star">*</view>
+				<view class="tui-title">收件人手机号</view>
+				<input placeholder-class="phcolor" class="tui-input" name="手机" placeholder="请输入手机号" maxlength="50" type="text" />
+			</view>
+		</tui-list-cell>
 
-    <tui-list-cell hover="{{false}}">
-      <view class="tui-line-cell">
-        <view class="red-star">*</view>
-        <view class="tui-title">商品类别</view>
-        <input placeholder-class="phcolor" class="tui-input" name="类别" placeholder="请描述邮寄内容物" maxlength="50" type="text" />
-      </view>
-    </tui-list-cell>
+		<tui-list-cell hover="{{false}}" last="{{true}}">
+			<view class="tui-line-cell">
+				<view class="red-star">*</view>
+				<view class="tui-title">收件人地址</view>
+				<input placeholder-class="phcolor" class="tui-input" name="收件人地址" placeholder="请输入收件人地址" maxlength="50" type="text" />
+			</view>
+		</tui-list-cell>
 
-    <tui-list-cell hover="{{false}}" last="{{false}}">
-      <view class="tui-line-cell">
-        <view class="red-star">*</view>
-        <view class="tui-title">重量</view>
-        <input placeholder-class="phcolor" class="tui-input" name="重量" placeholder="单位：千克" maxlength="50" type="number" />
-      </view>
-    </tui-list-cell>
-    
-    <tui-list-cell hover="{{false}}">
-      <view class="tui-line-cell">
-        <view class="red-star">*</view>
-        <view class="tui-title">内容物价值</view>
-        <input placeholder-class="phcolor" class="tui-input" name="金额" placeholder="请输入金额,单位为人民币" maxlength="50" type="digit" />
-      </view>
-    </tui-list-cell>
+		<tui-list-cell hover="{{false}}">
+			<view class="tui-line-cell">
+				<view class="red-star">*</view>
+				<view class="tui-title">商品类别</view>
+				<input placeholder-class="phcolor" class="tui-input" name="类别" placeholder="请描述邮寄内容物" maxlength="50" type="text" />
+			</view>
+		</tui-list-cell>
 
-    <tui-list-cell hover="{{false}}">
-      <view class="tui-line-cell">
-        <view class="red-star">*</view>
-        <view class="tui-title">发件人联系邮箱</view>
-        <input placeholder-class="phcolor" class="tui-input" name="联系方式" placeholder="请输入常用邮箱" maxlength="50" type="text" />
-      </view>
-    </tui-list-cell>
+		<tui-list-cell hover="{{false}}" last="{{false}}">
+			<view class="tui-line-cell">
+				<view class="red-star">*</view>
+				<view class="tui-title">重量</view>
+				<input placeholder-class="phcolor" class="tui-input" name="重量" placeholder="单位：千克" maxlength="50" type="number" />
+			</view>
+		</tui-list-cell>
 
-    <tui-list-cell hover="{{false}}" last="{{true}}">
-      <view class="tui-line-cell">
-        <view class="tui-title">备注</view>
-        <input placeholder-class="phcolor" class="tui-input" name="备注" placeholder="请输入备注" maxlength="50" type="text" />
-      </view>
-    </tui-list-cell>
+		<tui-list-cell hover="{{false}}">
+			<view class="tui-line-cell">
+				<view class="red-star">*</view>
+				<view class="tui-title">内容物价值</view>
+				<input placeholder-class="phcolor" class="tui-input" name="金额" placeholder="请输入金额,单位为人民币" maxlength="50" type="digit" />
+			</view>
+		</tui-list-cell>
+
+		<tui-list-cell hover="{{false}}">
+			<view class="tui-line-cell">
+				<view class="red-star">*</view>
+				<view class="tui-title">发件人联系邮箱</view>
+				<input placeholder-class="phcolor" class="tui-input" name="联系方式" placeholder="请输入常用邮箱" maxlength="50" type="text" />
+			</view>
+		</tui-list-cell>
+
+		<tui-list-cell hover="{{false}}" last="{{true}}">
+			<view class="tui-line-cell">
+				<view class="tui-title">备注</view>
+				<input placeholder-class="phcolor" class="tui-input" name="备注" placeholder="请输入备注" maxlength="50" type="text" />
+			</view>
+		</tui-list-cell>
+		<tui-list-cell hover="{{false}}" last="{{true}}">
+    <view> 物品照片(长按后删除) </view>
+  	</tui-list-cell>
+	<tui-list-cell hover="{{false}}" last="{{true}}">
+      <view class="weui-uploader__input-box" bindtap="chooseImage" wx:if="{{images.length < 3}}"></view>
+		</tui-list-cell>
+		<block wx:for="{{images}}" wx:key="*this">
+					<!-- 图片缩略图  -->
+					<image class="tui-btn" src="{{item}}" mode="aspectFill" data-idx="{{index}}" bindtap="handleImagePreview" bindlongtap="removeImage"></image>
+		</block>
+		<tui-list-cell hover="{{false}}" last="{{true}}">
+			<button class="tui-btn tui-btn-block tui-danger-outline tui-outline-fillet" hover-class="tui-outline-hover">条款1</button>
+		</tui-list-cell>
+
+		<tui-list-cell hover="{{false}}" last="{{true}}">
+			<view class="tui-line-cell">
+				<checkbox class="tui-checkbox" bindtap="termsChecking"></checkbox>
+				<view class="confirm-text">本人同意以上条款</view>
+			</view>
+		</tui-list-cell>
+		<tui-list-cell hover="{{false}}" last="{{true}}">
+			<view class="tui-line-cell">
+				<checkbox class="tui-checkbox" bindtap="authenticity"></checkbox>
+				<view class="confirm-text">本人确认以上信息真实有效</view>
+			</view>
+		</tui-list-cell>
+
+		<view class="tui-btn-box">
+			<button class="btn-primary" hover-class="btn-hover" formType="submit" type="primary" disabled="{{flag}}">提交</button>
+			<button class="btn-primary btn-gray" hover-class="btn-gray-hover" formType="reset">重置</button>
+		</view>
 
 
-    <tui-list-cell hover="{{false}}" last="{{true}}">
-        <button class="tui-btn tui-btn-block tui-danger-outline tui-outline-fillet" hover-class="tui-outline-hover">条款1</button>
-    </tui-list-cell>
-
-    <tui-list-cell hover="{{false}}" last="{{true}}">
-      <view class="tui-line-cell">
-        <checkbox class="tui-checkbox" bindtap="termsChecking"></checkbox>
-        <view class="confirm-text">本人同意以上条款</view>
-      </view>
-    </tui-list-cell>
-
-    <tui-list-cell hover="{{false}}" last="{{true}}">
-      <view class="tui-line-cell">
-        <checkbox class="tui-checkbox" bindtap="authenticity"></checkbox>
-        <view class="confirm-text">本人确认以上信息真实有效</view>
-      </view>
-    </tui-list-cell>
-    
-    <view class="tui-btn-box">
-      <button class="btn-primary" hover-class="btn-hover" formType="submit" type="primary" disabled="{{flag}}">提交</button>
-      <button class="btn-primary btn-gray" hover-class="btn-gray-hover" formType="reset">重置</button>
-    </view>
-
-    
-  </form>
+	</form>
 </view>

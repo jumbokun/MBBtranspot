@@ -50,31 +50,38 @@ App({
     onShow: function (options) {
         var that = this;
         wx.cloud.init(),
-
+        wx.setStorage({
+          data: 1,
+          key: 'imageID',
+        })
             wx.cloud.callFunction({
                 name: 'login',
                 complete: res => {
                     console.log('callFunction test result: ', res, res.result.openid)
                     that.globalData.usersOpenId = res.result.openid
                     wx.getStorage({
-                        key: 'OrderNum',
+                        key: that.globalData.usersOpenId,
+                        fail: function(e){
+                            wx.setStorage({
+                              data: [],
+                              key: that.globalData.usersOpenId,
+                            })
+                        }
+                      })  
+                    wx.getStorage({
+                        key: 'orderNum',
                         success: function (resu) { //要用不一样的变量名 再用res就出错了
                             //console.log("数组的输出形式:" + that.globalData.currList)
                             //console.log("订单号列表：" + resu.data)
                             if (resu.data == null) {
-
+                                wx.setStorage({
+                                  data: 1,
+                                  key: 'orderNum',
+                                })
                             }
-                            that.globalData.currList = that.globalData.currList.concat(resu.data.split(","))
-                            console.log("订单号列表：" + that.globalData.currList)
-                            wx.getStorage({
-                                key: 'orderNum',
-                                success: function (res) {
-                                    console.log(res.data)
-                                },
-                            })
+                            //that.globalData.currList = that.globalData.currList.concat(resu.data.split(","))
                         }
-                    })
-
+                    })  
 
                     //初始化历史记录表 调试用
                     // wx.setStorage({
