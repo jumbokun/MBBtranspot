@@ -776,12 +776,12 @@
 .tui-list-cell {
   position: relative;
   background: #fff;
-  width: 100%;
-  padding: 26rpx 30rpx;
-  box-sizing: border-box;
+  padding: 25rpx 0 25rpx 0;
   overflow: hidden;
   display: flex;
   align-items: center;
+  border-radius: 15rpx;
+  z-index: 15;
 }
 
 .tui-list-cell.tui-padding-small {
@@ -969,10 +969,7 @@
 }
 
 .tui-grid-2:nth-of-type(2n)::before, .tui-grid-3:nth-of-type(3n)::before,
-.tui-grid-4:nth-of-type(4n)::before, .tui-grid-5:nth-of-type(5n)::before,  {
-  width: 0;
-  border-right: 0;
-}
+
 
 .tui-grid::before {
   content: " ";

@@ -30,8 +30,8 @@ Page({
       msg: ["请输入手机号", "请输入正确的手机号"]
     }, {
       name: "重量",
-      rule: ["required", "range:[1,200]"],
-      msg: ["请输入区间数字", "重量：请输入1-200之间的数字"]
+      rule: ["required"],
+      msg: ["请输入区间数字"]
     }, {
       name: "类别",
       rule: ["required"],
@@ -81,9 +81,11 @@ Page({
         key: app.globalData.usersOpenId,
         data: app.globalData.currList.join(","), // 数组要转成字符串
       })
+
       //上传图片
       var fid = [];
       var iid = 0;
+      if(this.data.images.length>=1){
       wx.getStorage({
         key: 'imageID',
         success: res => {
@@ -100,19 +102,22 @@ Page({
                 fid[index] = res.fileID;
                 if(index == (that.data.images.length - 1)){
                   e.detail.value.imageFileID = fid;
-                  wx.cloud.callFunction({
-                    name: "sendMail",
-                    data: {
-                      id: currentListNumber.toString(),
-                      context: JSON.stringify(e.detail.value),
-                    },
-                    success(res) {
-                      console.log("success", res)
-                    },
-                    fail(res) {
-                      console.log("fail", res)
-                    }
-                  })
+                  setTimeout(() => {
+                    wx.cloud.callFunction({
+                      name: "sendMail",
+                      data: {
+                        id: currentListNumber.toString(),
+                        context: JSON.stringify(e.detail.value),
+                      },
+                      success(res) {
+                        console.log("success", res)
+                      },
+                      fail(res) {
+                        console.log("fail", res)
+                      }
+                    }) 
+                  }, 8000);
+
                 } //last pic
               },
               fail: res => {
@@ -127,7 +132,26 @@ Page({
             key: 'imageID',
           });
         }
-      })
+      })} else {
+        e.detail.value.imageFileID = [];
+        setTimeout(() => {
+          console.log(e.detail.value)  
+          wx.cloud.callFunction({
+            name: "sendMail",
+            data: {
+              id: currentListNumber.toString(),
+              context: JSON.stringify(e.detail.value),
+            },
+            success(res) {
+              console.log("success", res)
+            },
+            fail(res) {
+              console.log("fail", res)
+            }
+          })
+        }, 5000);
+        
+      }
 
       //将数据送至确认页面
       wx.navigateTo({

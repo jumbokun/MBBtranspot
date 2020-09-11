@@ -1,6 +1,6 @@
-<view class="container">
+<view class="container circle">
 	<form bindsubmit="formSubmit" bindreset="formReset">
-
+	
 		<tui-list-cell hover="{{false}}">
 			<view class="tui-line-cell">
 				<view class="red-star">*</view>
@@ -9,7 +9,7 @@
 			</view>
 		</tui-list-cell>
 
-		<tui-list-cell hover="{{false}}">
+		<tui-list-cell hover="{{false}}" last="{{true}}">
 			<view class="tui-line-cell">
 				<view class="red-star">*</view>
 				<view class="tui-title">收件人手机号</view>
@@ -83,7 +83,8 @@
 				<view class="confirm-text">本人同意以上条款</view>
 			</view>
 		</tui-list-cell>
-		<tui-list-cell hover="{{false}}" last="{{true}}">
+
+		<tui-list-cell hover="{{false}}" last="{{true}}" class= "border-ra">
 			<view class="tui-line-cell">
 				<checkbox class="tui-checkbox" bindtap="authenticity"></checkbox>
 				<view class="confirm-text">本人确认以上信息真实有效</view>

@@ -18,6 +18,8 @@
   box-sizing: border-box;
   display: flex;
   align-items: center;
+  border-radius: 15rpx;
+  z-index: 10;
 }
 
 .tui-title {
@@ -155,3 +157,15 @@
   margin: auto;
   padding-top: 20rpx;
 }
+
+.circle{
+  width:auto;
+  height:100rpx;
+  background-color:#ffffff;
+  border-radius:0 0 20% 20%;
+  }
+
+  .border-ra{
+    border-radius: 0 0 20% 20%;
+    z-index: 1;
+  }
