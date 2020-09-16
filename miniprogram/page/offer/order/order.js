@@ -13,6 +13,9 @@ Page({
     shippingPrice: 100.00,
     price: 0
   },
+  onShareAppMessage: function(option){
+
+  },
   onLoad: function (options) {
 
     //读取传来的数据

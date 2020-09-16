@@ -18,6 +18,9 @@ Page({
     onReady() {
         mta.Page.init()
     },
+    onShareAppMessage: function(option){
+
+    },
     /* 下拉刷新 */
     onPullDownRefresh(){
         this.getData(this.data.option)

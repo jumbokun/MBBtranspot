@@ -31,17 +31,16 @@ Page({
         wx.getStorage({
             key: app.globalData.usersOpenId,
             success: function (result) {
-                
+                console.log(app.globalData.usersOpenId)
                 console.log(result.data);
 
                 changedResult = result.data;
                 that.setData({
                     length: result.data.length
                 })
+                //update result
                 for (let i in result.data) {
-
                     console.log(i);
-
                     wx.cloud.callFunction({
                         name: "track",
                         data: {
@@ -49,9 +48,7 @@ Page({
                             orderNum: result.data[i].orderNum
                         },
                         success: function (res) {
-
                             console.log(res.result);
-
                             res.result = JSON.parse(res.result);
                             var newo;
 
@@ -69,9 +66,6 @@ Page({
                     })
                 }
 
-                console.log(changedResult);
-                console.log(result.data);
-
                 if(changedResult != result.data){
                     wx.setStorage({
                       data: changedResult,
@@ -85,7 +79,6 @@ Page({
                 console.log(that.data.latestRecord);
             }
         })
-        console.log("eof")
     },
 
     toDetail: function(e) {

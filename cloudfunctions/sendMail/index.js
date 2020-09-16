@@ -18,16 +18,19 @@ exports.main = async (event, context) => {
   var jsData = JSON.parse(event.context);
   var url;
   var filelist;
-  console.log(jsData.imageFileID == []);
+  console.log(jsData);
+console.log(event.context);
+
   if (jsData.imageFileID.length === 0) {
     var mail = {
       // 发件人
       from: '来自朱博桢-小程序 <550681829@qq.com>',
       // 主题
-      subject: '小程序订单' + jsData.id,
+      subject: '小程序订单-' + jsData.姓名 + '-' + jsData.id ,
       // 收件人
-      to: '550681829@qq.com',
-      //to: 'gaosongde@gmail.com', //高哥Gmail
+      //to: '550681829@qq.com',
+      to: 'gaosongde@gmail.com', //高哥Gmail
+      //to: 'ekuralc@gmail.com',
       // 邮件内容，text或者html格式
       text: '\n' + "姓名: " + jsData.姓名 + "\n手机: " + jsData.手机 + '\n地址: ' + jsData.收件人地址 + '\n类别:' + jsData.类别 + '\n重量(kg): ' + jsData.重量 + '\n内容物价值:' + jsData.金额 + '\n联系方式: ' + jsData.联系方式 + '\n备注: ' + jsData.备注 + '————————————————————————————————\n' + "Name: " + jsData.姓名 + "\ntelephone: " + jsData.手机 + '\naddress: ' + jsData.收件人地址 + '\ncategory:' + jsData.类别 + '\nweight(kg): ' + jsData.重量 + '\nPackage contents value:' + jsData.金额 + '\nContact information: ' + jsData.联系方式 + '\nfurther info: ' + jsData.备注 + '\n', //可以是链接，也可以是验证码
     };
@@ -51,16 +54,20 @@ exports.main = async (event, context) => {
     }
     // 创建一个邮件对象
     console.log(filelist == [])
+    var text1 = '\n' + "姓名: " + jsData.姓名 + "\n手机: " + jsData.手机 + '\n地址: ' + jsData.收件人地址 + '\n类别:' + jsData.类别 + '\n重量(kg): ' + jsData.重量 + '\n内容物价值:' + jsData.金额 + '\n联系方式: ' + jsData.联系方式 + '\n备注: ' + jsData.备注 +'\n' + '————————————————————————————————\n' + "Name: " + jsData.姓名 + "\ntelephone: " + jsData.手机 + '\naddress: ' + jsData.收件人地址 + '\ncategory:' + jsData.类别 + '\nweight(kg): ' + jsData.重量 + '\nPackage contents value:' + jsData.金额 + '\nContact information: ' + jsData.联系方式 + '\nfurther info: ' + jsData.备注 + '\n'
+    for (let index = 0; index < filelist.length; index++) {
+      text1 = text1 + filelist[index] + '\n'
+    }
     var mail = {
       // 发件人
       from: '来自朱博桢-小程序 <550681829@qq.com>',
       // 主题
-      subject: '小程序订单' + jsData.id,
+      subject: '小程序订单-' + jsData.姓名 + '-' + jsData.id,
       // 收件人
-      to: '550681829@qq.com',
-      //to: 'gaosongde@gmail.com', //高哥Gmail
+      //to: '550681829@qq.com',
+      to: 'gaosongde@gmail.com', //高哥Gmail
       // 邮件内容，text或者html格式
-      text: '\n' + "姓名: " + jsData.姓名 + "\n手机: " + jsData.手机 + '\n地址: ' + jsData.收件人地址 + '\n类别:' + jsData.类别 + '\n重量(kg): ' + jsData.重量 + '\n内容物价值:' + jsData.金额 + '\n联系方式: ' + jsData.联系方式 + '\n备注: ' + jsData.备注 + '————————————————————————————————\n' + "Name: " + jsData.姓名 + "\ntelephone: " + jsData.手机 + '\naddress: ' + jsData.收件人地址 + '\ncategory:' + jsData.类别 + '\nweight(kg): ' + jsData.重量 + '\nPackage contents value:' + jsData.金额 + '\nContact information: ' + jsData.联系方式 + '\nfurther info: ' + jsData.备注 + '\n' + filelist, //可以是链接，也可以是验证码
+      text: text1, //可以是链接，也可以是验证码
     };
 
   }

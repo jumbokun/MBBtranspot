@@ -8,6 +8,9 @@ Page({
         array: ['DHL-EXPRESS（德国-中国）','DHL-DE(德国境内）'],
         index: 0
     },
+    onShareAppMessage: function(option){
+
+    },
     formSubmit: function(e) {
         var app = getApp(); //获取小程序实例 = 获取全局变量
         var that=this;
