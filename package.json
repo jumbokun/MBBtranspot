@@ -1,0 +1,13 @@
+{
+  "name": "mbbtranspot",
+  "private": true,
+  "description": "Tests and checks for the MBB mini program; the mini program itself has no build step.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.js\" \"cloudfunctions/*/*.test.js\"",
+    "check": "node scripts/check-syntax.js",
+    "setup": "npm --prefix cloudfunctions/track ci && npm --prefix cloudfunctions/sendMail ci"
+  }
+}
