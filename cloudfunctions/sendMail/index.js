@@ -4,11 +4,12 @@ cloud.init()
 var nodemailer = require('nodemailer')
 // 创建一个SMTP客户端配置
 var config = {
-  host: 'smtp.qq.com', //网易163邮箱 smtp.163.com
-  port: 465, //网易邮箱端口 25
+  host: process.env.SMTP_HOST || 'smtp.qq.com',
+  port: Number(process.env.SMTP_PORT || 465),
+  secure: true,
   auth: {
-    user: '550681829@qq.com', //邮箱账号
-    pass: 'fggfbebhdnlobbac' //邮箱的授权码
+    user: process.env.SMTP_USER, // set in the cloud function's environment variables
+    pass: process.env.SMTP_PASS
   }
 };
 // 创建一个SMTP客户端对象
@@ -24,13 +25,11 @@ console.log(event.context);
   if (jsData.imageFileID.length === 0) {
     var mail = {
       // 发件人
-      from: '来自朱博桢-小程序 <550681829@qq.com>',
+      from: `MBB小程序 <${process.env.SMTP_USER}>`,
       // 主题
       subject: '小程序订单-' + jsData.姓名 + '-' + jsData.id ,
       // 收件人
-      //to: '550681829@qq.com',
-      to: 'gaosongde@gmail.com', //高哥Gmail
-      //to: 'ekuralc@gmail.com',
+      to: process.env.MAIL_TO,
       // 邮件内容，text或者html格式
       text: '\n' + "姓名: " + jsData.姓名 + "\n手机: " + jsData.手机 + '\n地址: ' + jsData.收件人地址 + '\n类别:' + jsData.类别 + '\n重量(kg): ' + jsData.重量 + '\n内容物价值:' + jsData.金额 + '\n联系方式: ' + jsData.联系方式 + '\n备注: ' + jsData.备注 + '————————————————————————————————\n' + "Name: " + jsData.姓名 + "\ntelephone: " + jsData.手机 + '\naddress: ' + jsData.收件人地址 + '\ncategory:' + jsData.类别 + '\nweight(kg): ' + jsData.重量 + '\nPackage contents value:' + jsData.金额 + '\nContact information: ' + jsData.联系方式 + '\nfurther info: ' + jsData.备注 + '\n', //可以是链接，也可以是验证码
     };
@@ -60,12 +59,11 @@ console.log(event.context);
     }
     var mail = {
       // 发件人
-      from: '来自朱博桢-小程序 <550681829@qq.com>',
+      from: `MBB小程序 <${process.env.SMTP_USER}>`,
       // 主题
       subject: '小程序订单-' + jsData.姓名 + '-' + jsData.id,
       // 收件人
-      //to: '550681829@qq.com',
-      to: 'gaosongde@gmail.com', //高哥Gmail
+      to: process.env.MAIL_TO,
       // 邮件内容，text或者html格式
       text: text1, //可以是链接，也可以是验证码
     };

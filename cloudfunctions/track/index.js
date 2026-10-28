@@ -10,7 +10,7 @@ exports.main = async (event, context) => {
     //const options = {
     //    url: 'https://api-eu.dhl.com/track/shipments?trackingNumber='+event.YQNum+'&language=zh&limit=10',
     //    headers: {
-    //        'Tracking-Api-Key': '5dd547c6-571c-4de4-a2be-211604359e7c',
+    //        'Tracking-Api-Key': process.env.TRACKING_API_KEY,
     //        'Content-Type': 'application/json'
     //    }
     //}
@@ -22,7 +22,7 @@ exports.main = async (event, context) => {
     const option = {
         url: 'https://api.51tracking.com/v2/trackings/post',
         headers: {
-            'Tracking-Api-Key': '5dd547c6-571c-4de4-a2be-211604359e7c',
+            'Tracking-Api-Key': process.env.TRACKING_API_KEY,
             'Content-Type': 'application/json'
         },
         body: {
@@ -38,7 +38,7 @@ exports.main = async (event, context) => {
             const options = {
                 url: 'https://api.51tracking.com/v2/trackings/'+event.carrier+'/'+event.orderNum,
                 headers: {
-                    'Tracking-Api-Key': '5dd547c6-571c-4de4-a2be-211604359e7c',
+                    'Tracking-Api-Key': process.env.TRACKING_API_KEY,
                     'Content-Type': 'application/json',
                 }
             }
@@ -55,7 +55,7 @@ exports.main = async (event, context) => {
     const options = {
         url: 'https://api.51tracking.com/v2/trackings/'+event.carrier+'/'+event.orderNum,
         headers: {
-            'Tracking-Api-Key': '5dd547c6-571c-4de4-a2be-211604359e7c',
+            'Tracking-Api-Key': process.env.TRACKING_API_KEY,
             'Content-Type': 'application/json',
         }
     }
