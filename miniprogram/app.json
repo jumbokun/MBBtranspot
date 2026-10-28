@@ -1,14 +1,8 @@
 {
   "pages": [
     "page/form/form",
-    "page/info/info",
     "page/offer/order/order",
-    "page/offer/address/address",
-    "page/detail/detail",
-    "page/company/company",
     "page/trackOrder/trackOrder",
-    "page/about/about",
-    "page/customs/customs",
     "page/history/history",
     "page/timeaxis/timeaxis"
   ],
