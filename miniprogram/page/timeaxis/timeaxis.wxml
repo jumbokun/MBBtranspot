@@ -13,7 +13,7 @@
 
 
 	<view class="tui-order-tracking">
-		<tui-time-axis wx:for = "{{trackinfo}}">
+		<tui-time-axis wx:for="{{trackinfo}}" wx:key="Date">
 			<tui-timeaxis-item bgcolor="none" wx:if="{{item.title}}">
 				<view slot="node" class="tui-node tui-bg-primary">
 					<tui-icon name="{{item.iconImage}}" color="#fff" size="14" bold="{{true}}"></tui-icon>

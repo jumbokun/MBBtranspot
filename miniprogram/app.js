@@ -2,24 +2,14 @@ const history = require('./lib/history.js')
 
 App({
     globalData: {
-        //data for timeaxis
-        shipment: JSON,
+        // carriers offered on the search tab; keep in sync with CARRIERS in cloudfunctions/track
         carrier: ['dhl', 'dhl-germany'],
         carrierCN: ['DHL-EXPRESS（德国-中国）', 'DHL-DE(德国境内）'],
-        index: 0,
-        firstQuery: true,
-        orderNum: '',
-        transNum: 0,
-        titleTrans: true,
-        created: '',
-        //end of data for timeaxis
-
-        //data for history
-        seco: '',
-        limitHistoryNum: history.LIMIT, // max number of stored order number of history page
-        lastUpdatedStatus: '',
-        lastUpdateTime: '',
-        //end of data for history
+        index: 0,          // picker position on the search tab
+        trackingNum: '',   // number the timeline page looks up
+        firstQuery: true,  // true from the search tab: register the number first
+        seco: '',          // carrier of a number opened from history
+        orderNum: 1,       // counter for order ids on the form tab
     },
 
     onLaunch() {

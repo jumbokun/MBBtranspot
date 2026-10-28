@@ -50,7 +50,7 @@ Page({
     },
 
     toDetail(e) {
-        app.globalData.orderNum = e.currentTarget.dataset.ordernum;
+        app.globalData.trackingNum = e.currentTarget.dataset.ordernum;
         app.globalData.seco = e.currentTarget.dataset.carrier;
         app.globalData.firstQuery = false;
         wx.navigateTo({

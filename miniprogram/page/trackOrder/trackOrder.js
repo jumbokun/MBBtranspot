@@ -13,9 +13,13 @@ Page({
     },
     formSubmit: function(e) {
         var app = getApp(); //获取小程序实例 = 获取全局变量
-        var that=this;
+        var trackingNum = (e.detail.value.orderNum || '').trim();
+        if (!/^[A-Za-z0-9-]{5,40}$/.test(trackingNum)) {
+            wx.showToast({ title: '请输入正确的快递单号', icon: 'none' });
+            return;
+        }
         app.globalData.firstQuery = true;
-        app.globalData.orderNum = e.detail.value.orderNum;
+        app.globalData.trackingNum = trackingNum;
         wx.navigateTo({
           url: '/page/timeaxis/timeaxis',
         })
