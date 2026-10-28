@@ -9,7 +9,7 @@
     </view>
       
     </view>
-    <view slot="content" wx:for="{{latestRecord}}">
+    <view slot="content" wx:for="{{latestRecord}}" wx:key="orderNum">
     <!--内容 start-->
     <view class="list-view">
       <view class="list-item" hover-class="hover" hover-stay-time="150" bindtap="toDetail" data-orderNum="{{item.orderNum}}" data-carrier="{{item.carrier}}">
@@ -22,11 +22,12 @@
             </view> 
         </view>
         <view class="status">
-          {{item.status}}
+          {{item.statusText || item.status}}
         </view>
       </view>
     </view>
     <!--内容 end-->
     </view>
+    <view slot="content" wx:if="{{!length}}" class="empty">还没有查询记录，在「订单查询」里输入单号试试</view>
   </sticky>
 </view>

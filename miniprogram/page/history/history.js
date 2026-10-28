@@ -1,95 +1,60 @@
 const app = getApp();
 const history = require('../../lib/history.js');
+const shipment = require('../../lib/shipment.js');
+
 Page({
     data: {
         title: '查询历史',
-        error: null,
         latestRecord: [],
         length: 0
     },
+
+    // Lookups are billed per call, so the list refreshes on first load and
+    // on pull-down; coming back to the tab only re-reads storage.
     onLoad() {
-        this.getHistory();
+        this.refresh();
     },
-    onReady() {
-    },
+
     onShow() {
-        wx.showToast({
-            title: '正在更新历史记录',
-            icon: 'loading',
-            duration: 3500
-          })
+        const stored = history.load();
+        this.setData({ latestRecord: stored, length: stored.length });
     },
+
     onPullDownRefresh() {
-        this.getHistory();
+        this.refresh().then(() => wx.stopPullDownRefresh());
     },
 
-    getHistory() {
-        console.log("invoked")
-        var changedResult;
-        var that = this;
-
-        wx.getStorage({
-            key: history.HISTORY_KEY,
-            success: function (result) {
-                console.log(result.data);
-
-                changedResult = result.data;
-                that.setData({
-                    length: result.data.length
-                })
-                //update result
-                for (let i in result.data) {
-                    console.log(i);
-                    wx.cloud.callFunction({
-                        name: "track",
-                        data: {
-                            carrier: result.data[i].carrier,
-                            orderNum: result.data[i].orderNum
-                        },
-                        success: function (res) {
-                            console.log(res.result);
-                            res.result = JSON.parse(res.result);
-                            var newo;
-
-                            if (result.data[i].lastUpdateTime != res.result.data.lastUpdateTime) {
-                                newo = {
-                                    "orderNum": result.data[i].orderNum,
-                                    "carrier": result.data[i].carrier,
-                                    "lastEvent": res.result.data.lastEvent,
-                                    "lastUpdateTime": res.result.data.lastUpdateTime.substring(0, 10) + ' ' + res.result.data.lastUpdateTime.substr(11, 8),
-                                    "status": res.result.data.status,
-                                };
-                                changedResult[i] = newo;
-                            }
-                        }
-                    })
-                }
-
-                if(changedResult != result.data){
-                    wx.setStorage({
-                      data: changedResult,
-                      key: history.HISTORY_KEY,
-                    })
-                }
-                that.setData({
-                    latestRecord: changedResult
-                })
-                console.log(changedResult);
-                console.log(that.data.latestRecord);
+    // Looks every stored number up again and saves the list once all
+    // answers are in. A number whose lookup fails keeps its last entry.
+    async refresh() {
+        const stored = history.load();
+        if (!stored.length) return;
+        wx.showNavigationBarLoading();
+        const updated = await Promise.all(stored.map(async (item) => {
+            try {
+                const res = await wx.cloud.callFunction({
+                    name: 'track',
+                    data: { carrier: item.carrier, orderNum: item.orderNum }
+                });
+                const result = shipment.parse(res.result);
+                return shipment.ok(result) ? shipment.summary(item.orderNum, item.carrier, result.data) : item;
+            } catch (e) {
+                return item;
             }
-        })
+        }));
+        wx.hideNavigationBarLoading();
+        // Keep any number looked up on another tab while this was running.
+        const merged = history.load().map((item) => updated.find((u) => u.orderNum === item.orderNum) || item);
+        history.save(merged);
+        this.setData({ latestRecord: merged, length: merged.length });
     },
 
-    toDetail: function(e) {
-        console.log(e);
-        setTimeout(() => {
-          console.log(e+"inside");
-          }, 2000);
+    toDetail(e) {
         app.globalData.orderNum = e.currentTarget.dataset.ordernum;
         app.globalData.seco = e.currentTarget.dataset.carrier;
         app.globalData.firstQuery = false;
         wx.navigateTo({
             url: '/page/timeaxis/timeaxis'
-        })
+        });
     },
 })
