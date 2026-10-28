@@ -64,8 +64,11 @@
 		<view class="tui-tabbar">
 			<view class="tui-flex-end tui-color-red tui-pr-20">
 				<view class="tui-black">预计运费金额:  </view>
-				<view class="tui-size-35">€ </view>
-				<view class="tui-price-large">{{price}}</view>
+				<block wx:if="{{price}}">
+					<view class="tui-size-35">€ </view>
+					<view class="tui-price-large">{{price}}</view>
+				</block>
+				<view class="tui-black" wx:else>待客服报价</view>
 			</view>
 		</view>
 	</view>
