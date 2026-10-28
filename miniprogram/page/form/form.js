@@ -1,177 +1,94 @@
 const form = require("../../components/utils/formValidation.js")
+const { newOrderId, photoPath } = require("../../lib/order.js")
+
+const MAX_PHOTOS = 3
+
+const RULES = [{
+  name: "姓名",
+  rule: ["required", "minLength:2", "maxLength:20"],
+  msg: ["请输入姓名", "姓名必须2个或以上字符", "姓名不能超过20个字符"]
+}, {
+  name: "手机",
+  rule: ["required", "minLength:6"],
+  msg: ["请输入手机号", "请输入正确的手机号"]
+}, {
+  name: "收件人地址",
+  rule: ["required"],
+  msg: ["请输入收件人地址"]
+}, {
+  name: "类别",
+  rule: ["required"],
+  msg: ["请输入类别"]
+}, {
+  name: "重量",
+  rule: ["required", "isAmount"],
+  msg: ["请输入重量", "重量请填数字，最多两位小数"]
+}, {
+  name: "金额",
+  rule: ["required", "isAmount"],
+  msg: ["请输入金额", "请输入正确的金额，允许保留两位小数"]
+}, {
+  name: "联系方式",
+  rule: ["required", "isEmail"],
+  msg: ["请输入邮箱", "请输入正确的邮箱"]
+}];
+
 Page({
   data: {
     flag1: 0,
     flag2: 0,
     flag: 1,
+    submitting: false,
     images: []
   },
 
-  onLoad: function (options) {
-  },
   onShareAppMessage: function (option) {
 
   },
-  formSubmit: function (e) {
-    var that = this;
-    //表单规则
-    let rules = [{
-      name: "姓名",
-      rule: ["required", "minLength:2", "maxLength:20"], //可使用区间，此处主要测试功能
-      msg: ["请输入姓名", "姓名必须2个或以上字符", "姓名不能超过20个字符"]
-    }, {
-      name: "手机",
-      rule: ["required", "minlength:6"],
-      msg: ["请输入手机号", "请输入正确的手机号"]
-    }, {
-      name: "重量",
-      rule: ["required"],
-      msg: ["请输入区间数字"]
-    }, {
-      name: "类别",
-      rule: ["required"],
-      msg: ["请输入类别"]
-    }, {
-      name: "收件人地址",
-      rule: ["required"],
-      msg: ["请输入收件人地址"]
-    }, {
-      name: "金额",
-      rule: ["required", "isAmount"],
-      msg: ["请输入金额", "请输入正确的金额，允许保留两位小数"]
-    }, {
-      name: "联系方式",
-      rule: ["required"],
-      msg: ["请输入邮箱", "请输入正确的邮箱"]
-    }];
-    //进行表单检查
-    let formData = e.detail.value;
-    let checkRes = form.validation(formData, rules);
-    if (!checkRes) {
-      wx.showToast({
-        title: "验证通过!",
-        icon: "none"
-      });
 
-      //算出快递费用(abandon)
-
-
-      //处理订单编号
-      var app = getApp(); //获取小程序实例 = 获取全局变量
-
-      var currentListNumber = app.globalData.orderNum + 1;
-      e.detail.value.id = currentListNumber;
-
-      wx.setStorage({
-        key: 'orderNum',
-        data: currentListNumber,
-      })
-      console.log('更新orderNum')
-
-      //上传图片
-      var fid = [];
-      var iid = 0;
-      if (this.data.images.length >= 1) {
-        wx.getStorage({
-          key: 'imageID',
-          success: res => {
-            console.log(res);
-            iid = res.data;
-            for (let index = 0; index < that.data.images.length; index++) {
-              var p = (iid + '.png').toString();
-              console.log(that.data.images[index]);
-              wx.cloud.uploadFile({
-                cloudPath: p,
-                filePath: that.data.images[0],
-                success: res => {
-                  console.log(res.fileID + '  成功上传 ' + index);
-                  fid[index] = res.fileID;
-                  if (index == (that.data.images.length - 1)) {
-                    e.detail.value.imageFileID = fid;
-                    setTimeout(() => {
-                      wx.cloud.callFunction({
-                        name: "sendMail",
-                        data: {
-                          id: currentListNumber.toString(),
-                          context: JSON.stringify(e.detail.value),
-                        },
-                        success(res) {
-                          console.log("success", res)
-                        },
-                        fail(res) {
-                          console.log("fail", res)
-                        }
-                      })
-                    }, 5000);
-
-                  } //last pic
-                },
-                fail: res => {
-                  console.log(res);
-                }
-              })
-              iid++;
-            }
-            console.log(iid);
-            wx.setStorage({
-              data: iid,
-              key: 'imageID',
-            });
-          }
-        })
-      } else {
-        e.detail.value.imageFileID = [];
-        setTimeout(() => {
-          console.log(e.detail.value)
-          wx.cloud.callFunction({
-            name: "sendMail",
-            data: {
-              id: currentListNumber.toString(),
-              context: JSON.stringify(e.detail.value),
-            },
-            success(res) {
-              console.log("success", res)
-            },
-            fail(res) {
-              console.log("fail", res)
-            }
-          })
-        }, 5000);
-
-      }
-
-      //将数据送至确认页面
-      wx.navigateTo({
-        url: '/page/offer/order/order?dataObj=' + JSON.stringify(e.detail.value),
-      })
-
-
-
-
-      //查看当前storage信息
-      //wx.getStorageInfo({
-      //  success(resul) {
-      //    console.log(resul.keys)
-      //    console.log(resul.currentSize)
-      //    console.log(resul.limitSize)
-      //  }
-      //})
-
-      wx.showToast({
-        title: '信息已成功登记，请注意邮箱后续来信',
-        duration: 1500
-      })
-
-    } else {
-      wx.showToast({
-        title: checkRes,
-        icon: "none"
-      });
+  async formSubmit(e) {
+    const values = e.detail.value;
+    const error = form.validation(values, RULES);
+    if (error) {
+      wx.showToast({ title: error, icon: "none" });
+      return;
     }
+    if (this.data.submitting) return;
+    this.setData({ submitting: true });
+    wx.showLoading({ title: "正在提交", mask: true });
+
+    const order = Object.assign({}, values, { id: newOrderId() });
+    try {
+      // Upload every photo under this order's own folder, then mail once.
+      const uploads = await Promise.all(this.data.images.map((filePath, i) =>
+        wx.cloud.uploadFile({ cloudPath: photoPath(order.id, i, filePath), filePath })
+      ));
+      order.imageFileID = uploads.map((u) => u.fileID);
+
+      const res = await wx.cloud.callFunction({ name: "sendMail", data: { order } });
+      if (!res.result || !res.result.ok) throw new Error((res.result && res.result.error) || "sendMail failed");
+    } catch (err) {
+      console.error(err);
+      wx.hideLoading();
+      this.setData({ submitting: false });
+      wx.showModal({
+        title: "提交失败",
+        content: "订单没有发出，请检查网络后重试。",
+        showCancel: false
+      });
+      return;
+    }
+
+    wx.hideLoading();
+    this.setData({ submitting: false });
+    wx.navigateTo({
+      url: "/page/offer/order/order",
+      success: (nav) => nav.eventChannel.emit("order", order)
+    });
   },
 
   formReset: function (e) {
-    console.log("清空数据")
+    this.setData({ images: [] });
   },
 
   authenticity: function (e) {
@@ -195,39 +112,29 @@ Page({
   },
 
   chooseImage(e) {
-    var that = this;
-    wx.chooseImage({
-      sizeType: ['original', 'compressed'], //可选择原图或压缩后的图片
-      sourceType: ['album', 'camera'], //可选择性开放访问相册、相机
-      success: res => {
-        const image = that.data.images.concat(res.tempFilePaths)
-        // 限制最多只能留下3张照片
-        that.setData({
-          images: image.length <= 3 ? image : image.slice(0, 3)
-        })
+    wx.chooseMedia({
+      count: MAX_PHOTOS - this.data.images.length,
+      mediaType: ["image"],
+      sizeType: ["compressed"],
+      sourceType: ["album", "camera"],
+      success: (res) => {
+        const picked = res.tempFiles.map((f) => f.tempFilePath);
+        this.setData({ images: this.data.images.concat(picked).slice(0, MAX_PHOTOS) });
       }
-    })
+    });
   },
 
   removeImage(e) {
-    var that = this;
-    console.log(e.target.dataset);
-    const idx = e.target.dataset.idx
-    console.log(that.data.images);
-    console.log(that.data.images.splice(idx, 1));
-    that.setData({
-      images: that.data.images.splice(idx, 1)
-    })
+    const idx = Number(e.currentTarget.dataset.idx);
+    this.setData({ images: this.data.images.filter((_, i) => i !== idx) });
   },
 
   handleImagePreview(e) {
-    var that = this;
-    const idx = e.target.dataset.idx
-    const image = that.data.images
+    const idx = e.currentTarget.dataset.idx;
     wx.previewImage({
-      current: image[idx], //当前预览的图片
-      urls: image, //所有要预览的图片
-    })
+      current: this.data.images[idx],
+      urls: this.data.images,
+    });
   }
 
 })

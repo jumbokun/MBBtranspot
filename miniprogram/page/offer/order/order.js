@@ -16,12 +16,14 @@ Page({
   onShareAppMessage: function(option){
 
   },
-  onLoad: function (options) {
+  onLoad: function () {
+    // The form page hands the submitted order over its event channel.
+    this.getOpenerEventChannel().on('order', (order) => this.showOrder(order));
+  },
 
-    //读取传来的数据
-    let str = "dataObj"
+  showOrder: function (order) {
     this.setData({
-      [str]: JSON.parse(options.dataObj)
+      dataObj: order
     });
 
 

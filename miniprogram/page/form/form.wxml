@@ -92,7 +92,7 @@
 		</tui-list-cell>
 
 		<view class="tui-btn-box">
-			<button class="btn-primary" hover-class="btn-hover" formType="submit" type="primary" disabled="{{flag}}">提交</button>
+			<button class="btn-primary" hover-class="btn-hover" formType="submit" type="primary" disabled="{{flag || submitting}}">提交</button>
 			<button class="btn-primary btn-gray" hover-class="btn-gray-hover" formType="reset">重置</button>
 		</view>
 
