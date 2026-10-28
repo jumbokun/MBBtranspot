@@ -8,13 +8,6 @@ Page({
   },
 
   onLoad: function (options) {
-    wx.cloud.init()
-    wx.cloud.callFunction({ //获取客户的list
-      name: 'login',
-      complete: res => {
-        console.log('callFunction test result: ', res, res.result.openid)
-      }
-    })
   },
   onShareAppMessage: function (option) {
 

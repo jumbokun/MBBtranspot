@@ -1,4 +1,5 @@
 const app = getApp();
+const history = require('../../lib/history.js');
 Page({
     data: {
         title: '查询历史',
@@ -28,9 +29,8 @@ Page({
         var that = this;
 
         wx.getStorage({
-            key: app.globalData.usersOpenId,
+            key: history.HISTORY_KEY,
             success: function (result) {
-                console.log(app.globalData.usersOpenId)
                 console.log(result.data);
 
                 changedResult = result.data;
@@ -68,7 +68,7 @@ Page({
                 if(changedResult != result.data){
                     wx.setStorage({
                       data: changedResult,
-                      key: app.globalData.usersOpenId,
+                      key: history.HISTORY_KEY,
                     })
                 }
                 that.setData({

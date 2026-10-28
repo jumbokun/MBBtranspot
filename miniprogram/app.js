@@ -1,7 +1,7 @@
+const history = require('./lib/history.js')
+
 App({
     globalData: {
-        usersOpenId: '1',
-        currList: ["0"], // openId 对应的tracknumber数组
         //data for timeaxis
         shipment: JSON,
         carrier: ['dhl', 'dhl-germany'],
@@ -16,114 +16,35 @@ App({
 
         //data for history
         seco: '',
-        limitHistoryNum: 5, // max number of stored order number of history page
+        limitHistoryNum: history.LIMIT, // max number of stored order number of history page
         lastUpdatedStatus: '',
         lastUpdateTime: '',
         //end of data for history
     },
 
-    onShow: function (options) {
+    onLaunch() {
+        wx.cloud.init({ traceUser: true })
+        // History used to be keyed by openid; move it to the fixed key once.
+        history.migrateLegacy(history.wxStorage())
+    },
+
+    onShow() {
         var that = this;
-        wx.cloud.init(),
-            //并发时要去掉 oder 换个实现方法
-            wx.setStorage({
-                data: 1,
-                key: 'imageID',
-            })
-        wx.cloud.callFunction({
-            name: 'login',
-            complete: res => {
-                console.log('callFunction test result: ', res, res.result.openid)
-                that.globalData.usersOpenId = res.result.openid
-                wx.getStorage({
-                    key: that.globalData.usersOpenId,
-                    fail: function (e) {
-                        wx.setStorage({
-                            data: [],
-                            key: that.globalData.usersOpenId,
-                        })
-                    }
-                })
-                setTimeout(() => {
-                    
-                }, 500);
-                wx.getStorage({
-                    key: 'orderNum',
-                    complete: function (resu) { //要用不一样的变量名 再用res就出错了
-                        console.log(resu)
-                        if (resu.data == null || isNaN(resu.data)) {
-                            wx.setStorage({
-                                data: 1,
-                                key: 'orderNum',
-                                complete: function (rl) {
-                                    try {
-                                        that.globalData.orderNum = wx.getStorageSync('orderNum');
-                                        console.log('初始化ordernum后取到本地 ' + that.globalData.orderNum);
-                                        console.log(that.globalData.orderNum);
-                                    } catch (e) {
-                                        console.log(e);
-                                    }
-                                }
-                            })
-                            console.log('init orderNum')
-
-                        } else {
-                            that.globalData.orderNum = resu.data;
-                        }
-                        //that.globalData.currList = that.globalData.currList.concat(resu.data.split(","))
-                    }
-                })
-
-                //初始化历史记录表 调试用
-                // wx.setStorage({
-                //     data: 
-                //         [{
-                //             "orderNum": "00340434326733124494",
-                //             "carrier": "dhl-germany",
-                //             "lastEvent": "The shipment has been successfully delivered,2020-08-19",
-                //              "status": "delivered"
-                //         }],
-                //     key: that.globalData.usersOpenId
-                // })
-
-
-                // test data
-                // var a = [{
-                //     "orderNum": "00340434326733124494",
-                //     "carrier": "dhl-germany",
-                //     "lastEvent": "The shipment has been successfully delivered,2020-08-19",
-                //      "status": "delivered"
-                //             },
-                //             {
-                //                 "orderNum": "00340434326123134494",
-                //                 "carrier": "dhl-germany",
-                //                 "lastEvent": "The shipment has been successfully delivered,2020-08-22",
-                //                  "status": "transit"
-                //             },
-                //         ]
-                // var b = [{
-                //     "orderNum": "00340434326123133212",
-                //     "carrier": "dhl-germany",
-                //     "lastEvent": "The shipment has been successfully delivered,2020-08-31",
-                //      "status": "transit"
-                // }]
-
-                // var result = [];
-                // for(var i in b){
-                //     result.push(b[i]);
-                // }
-                // for(var i in a){
-                //     result.push(a[i]);}
-
-                // console.log(result);
-                //end of 初始化历史记录表
-
-
+        //并发时要去掉 oder 换个实现方法
+        wx.setStorage({
+            data: 1,
+            key: 'imageID',
+        })
+        wx.getStorage({
+            key: 'orderNum',
+            complete: function (resu) {
+                if (resu.data == null || isNaN(resu.data)) {
+                    wx.setStorageSync('orderNum', 1)
+                    that.globalData.orderNum = 1
+                } else {
+                    that.globalData.orderNum = resu.data;
+                }
             }
         })
-
-
-
-
     },
 })

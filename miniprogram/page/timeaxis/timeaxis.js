@@ -1,5 +1,6 @@
 let globalData = getApp().globalData;
 var app = getApp();
+const history = require('../../lib/history.js');
 Page({
   data: {
     loading: true,
@@ -88,40 +89,14 @@ Page({
           that.setData({
             trackinfo: temp
           })
-          wx.getStorage({
-            key: app.globalData.usersOpenId,
-            success: function (result) {
-              var tracked = false; //default not tracked yet
-              var array = [];
-              for (let i in result.data) {
-                if (result.data[i].orderNum == app.globalData.orderNum) {
-                  tracked = true;
-                }
-              }
-              if (!tracked) { // process current array
-                var js = {
-                  "orderNum": app.globalData.orderNum,
-                  "carrier": app.globalData.carrier[app.globalData.index],
-                  "lastEvent": app.globalData.shipment.data.lastEvent,
-                  "lastUpdateTime": app.globalData.shipment.data.lastUpdateTime.substring(0, 10) + ' ' + app.globalData.shipment.data.lastUpdateTime.substr(11, 8),
-                  "status": app.globalData.shipment.data.status
-                };
-                // console.log(result.data)
-                // console.log(js)
-                array[0] = js;
-                for (let index = 0; index < result.data.length; index++) {
-                  array[index + 1] = (result.data[index]);
-                }
-                if (array.length > 5) {
-                  array.splice(4, 1);
-                }
-                wx.setStorage({
-                  data: array,
-                  key: app.globalData.usersOpenId,
-                })
-              }
-            }
-          })
+          var js = {
+            "orderNum": app.globalData.orderNum,
+            "carrier": app.globalData.carrier[app.globalData.index],
+            "lastEvent": app.globalData.shipment.data.lastEvent,
+            "lastUpdateTime": app.globalData.shipment.data.lastUpdateTime.substring(0, 10) + ' ' + app.globalData.shipment.data.lastUpdateTime.substr(11, 8),
+            "status": app.globalData.shipment.data.status
+          };
+          history.save(history.upsert(history.load(), js));
         }
       },
       fail: console.error
