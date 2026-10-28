@@ -1,11 +1,8 @@
+const app = getApp();
 
 Page({
     data:{
-        title: '查询历史',
-        error: null,
-        OrderNum: '',
-        resu: '',
-        array: ['DHL-EXPRESS（德国-中国）','DHL-DE(德国境内）'],
+        array: app.globalData.carrierCN, // carrier names, same order as globalData.carrier
         index: 0
     },
     onShareAppMessage: function(option){
