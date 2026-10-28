@@ -1,4 +1,3 @@
-const mta = require('../../utils/mta_analysis.js');
 const app = getApp();
 Page({
     data: {
