@@ -1,41 +1,78 @@
 # MBBtranspot
-A Miniprogram for Wechat, which is able to submit orders to the server, remind the merchants in the form of emails, localize the DHL(and more, thanks to 51tracking) order query page and save the query order number so that you can quickly review it next time.
 
-# 关联账号
-1. 51tracking 是提供查询物流的API接口的公司，官网为https://www.51tracking.com/，需要从开发者朱博手中对接到MBB公司手中。
-2. 小程序的后端使用了腾讯云服务，相关费用属于预扣款性质，目前也还挂在开发者朱博手中。
+给 MBB 物流公司做的微信小程序（2020 年，2026 年翻新）：客户在小程序里登记寄件信息，订单以邮件发到 MBB 公司邮箱，由客服人工联系；同时可以查询 DHL 物流轨迹，并保留最近 5 条查询记录。
 
-# 相关资费信息
-1. 51tracking资费为100元 10000条查询的预付费
-2. 腾讯云目前使用较多为云资源，每月免费40000GBs，根据调试经验单个用户单次用量在5GBs以下。一旦超过也会被扣费。
+A WeChat mini program for the MBB logistics company: customers submit shipping orders, which are mailed to MBB's staff, and track DHL parcels through the 51tracking API.
 
-# 功能点
-1. 提交订单 ——> 将信息发送邮件到MBB公司邮箱 ——> MBB客服人工联系客户
-2. 查询及时物流情况，同时自动将其保存到历史记录中
-3. 回看至多*5*条的历史查询记录。物流信息将在每次loading历史记录页面时刷新。
+## 功能
 
-# 注意
-1. 由于物流查询的API以及腾讯云都在国内，因此该小程序在使用过程中有较大的延迟感，每个页面的平均跳转时间长达3秒
-2. 目前只支持到DHL-EXPRESS/DHL全球、DHL-DE的物流查询，后续添加需要查看51tracking的carriers信息
-3. 所有物流信息都有一个default状态为transit，以防未知的错误
-4. 后续添加物流商时需要注意返回值status的变化
-5. 后续编写bindtap与data-name时注意wxml中只存在小学，在function中要注意e的值
-6. 注意通讯nodejs程序的config中需要添加private: true 字段
-7. 不同用户由于使用的是与openId关联的storage，应不存在存储冲突问题。
-8. wx.storage： openID> {orderArray} > orderNum, carrier, lastEvent...
+1. **提交快递**：填写收件人、重量、内容物价值等，可附最多 3 张物品照片 → 邮件发到 MBB 邮箱（照片作为附件）→ 客服人工联系客户。确认页按 MBB 2020 年的价目表显示预计运费。
+2. **订单查询**：输入单号、选择运输商，显示物流时间轴，并自动存入历史记录。
+3. **历史记录**：最近 5 条查询，首次打开和下拉时刷新状态。
 
-# 已知BUG
-1. 当打开小程序后立马跳转到历史记录页面会无法正常读取，因为用户的login还没完成。
+目前支持 DHL-EXPRESS（德国-中国）和 DHL-DE（德国境内）。
 
-# 有关配置信息
-1. 修改邮箱接收人：
-couldfunctions > sendMail > index.js > main, line28 > to 变量
-2. 修改/增加支持的物流商：
-修改app.js中的globalData.carrier变量
-修改page/trackOrder/trackOrder.js中 array变量，注意中英文对应关系
-3. 通信问题：
-多半应该在couldfunctions > track > index.js 通信部分，可以通过本地调试获取POST/GET的返回值中的API code来判断到底出了什么问题
-4. 额外的物流状态
-在timeaxis.js中 line 70, 85. 其中我定义了2个状态为trasport（default）和check（签收）。其他支持的状态还有：home,order,people
-5. 更多请发邮件至jumbokun@Outlook.com, 注明Miniprogram
+## 目录
 
+```
+miniprogram/          小程序本体（无构建步骤，开发者工具直接打开仓库根目录）
+  page/               form 提交快递 · offer/order 订单确认 · trackOrder 订单查询
+                      history 历史记录 · timeaxis 物流时间轴
+  lib/                可测试的纯逻辑：history 历史记录 · shipment 物流结果 · order 订单号与照片路径 · pricing 运费
+  components/         ThorUI 组件库（第三方，原样保留）
+cloudfunctions/
+  track/              调 51tracking v2：首次查询先登记单号，再读取轨迹
+  sendMail/           校验订单、下载照片作附件、用 SMTP 发邮件
+test/                 lib/ 的测试
+```
+
+## 部署
+
+### 云函数环境变量（必填）
+
+密钥不再写在代码里。在 **微信开发者工具 → 云开发控制台 → 云函数 → 选中函数 → 版本与配置 → 环境变量** 里设置：
+
+| 云函数 | 变量 | 说明 |
+|---|---|---|
+| track | `TRACKING_API_KEY` | 51tracking 的 API Key |
+| sendMail | `SMTP_USER` | 发件邮箱，例如 QQ 邮箱地址 |
+| sendMail | `SMTP_PASS` | 该邮箱的 SMTP 授权码（不是登录密码） |
+| sendMail | `MAIL_TO` | 接收订单的 MBB 邮箱，多个用逗号分隔 |
+| sendMail | `SMTP_HOST` / `SMTP_PORT` | 可选，默认 `smtp.qq.com` / `465` |
+
+没设置时，查询会提示失败、提交会弹出「提交失败」，云函数日志里会写明缺哪个变量。
+
+### 上传
+
+1. 开发者工具打开仓库根目录（`project.config.json` 在这里）。
+2. 右键 `cloudfunctions/track`、`cloudfunctions/sendMail` →「上传并部署：云端安装依赖」。
+3. 上传小程序代码并提交审核。
+
+## 关联账号与费用
+
+1. **51tracking**（https://www.51tracking.com/）提供物流查询 API，预付费 100 元 / 10000 次查询。账号需要从开发者朱博桢手中移交给 MBB 公司。历史页只在首次打开和下拉时刷新，就是为了省查询次数。
+2. **腾讯云开发**：云函数资源每月免费 40000 GBs，单个用户单次用量在 5 GBs 以下，超出部分预扣费。目前也挂在开发者名下。
+
+## 修改配置
+
+- **收件人**：改 sendMail 的 `MAIL_TO` 环境变量，不用改代码。
+- **增加运输商**：同时改 `miniprogram/app.js` 的 `globalData.carrier`（51tracking 的 carrier code）和 `globalData.carrierCN`（显示名称，顺序一致），以及 `cloudfunctions/track/tracking.js` 的 `CARRIERS`。可用的 code 见 51tracking 的 carriers 列表。
+- **物流状态文字**：`miniprogram/lib/shipment.js` 的 `STATUS_TEXT`。时间轴上最新一条和「已签收」显示大图标（`transport` / `check`）。
+- **运费**：`miniprogram/lib/pricing.js`。
+
+## 待 MBB 确认
+
+- **9–10 kg 的运费**：2020 年的代码里 9–9.5 kg 重复了 8 kg 的价格（比 8.5–9 kg 还便宜），9.5–10 kg 根本没有价格（报 0 元）。现在这两档显示「待客服报价」，拿到正确价格后填进 `pricing.js` 即可。
+- 确认页文案「X 个工作日内」里的 X，以及提交页「条款1」按钮背后的条款内容，当年都没有填。
+
+## 开发
+
+```
+npm run setup   # 安装两个云函数的依赖
+npm run check   # 对所有 .js 做语法检查
+npm test        # 22 个测试
+```
+
+GitHub Actions 每次推送都会跑这三步（Node 22）。
+
+联系：jumbokun@outlook.com，邮件请注明 Miniprogram。
